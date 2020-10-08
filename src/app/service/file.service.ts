@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core'
-
+// import idb from 'idb';
 import { v4 } from 'uuid'
 import { FileElement } from '../file-explorer/model/file-element'
-import { Observable } from 'rxjs'
-import { BehaviorSubject } from 'rxjs'
+import { Observable, Subject, interval, BehaviorSubject } from 'rxjs'
 
 export interface IFileService {
   add(fileElement: FileElement)
@@ -17,9 +16,38 @@ export interface IFileService {
 export class FileService implements IFileService {
   private map = new Map<string, FileElement>()
 
-  constructor() {}
+  // private _dataChange: Subject<FileElement> = new Subject<FileElement>();
+  // private _dbPromise;
+
+  constructor() {
+  }
+
+  // connectToIDB() {
+  //   this._dbPromise = idb.open('pwa-database', 1, UpgradeDB => {
+  //     if (!UpgradeDB.objectStoreNames.contains('Items')) {
+  //       UpgradeDB.createObjectStore('Items', {keyPath: 'id', autoIncrement: true});
+  //     }
+  //     if (!UpgradeDB.objectStoreNames.contains('Sync-Items')) {
+  //       UpgradeDB.createObjectStore('Sync-Items', {keyPath: 'id', autoIncrement: true});
+  //     }
+  //   });
+  // }
 
   add(fileElement: FileElement) {
+    // this._dbPromise.then((db: any) => {
+    //   const tx = db.transaction(target, 'readwrite');
+    //   tx.objectStore(target).put({
+    //   time: value.time,
+    //   subject: value.subject,
+    //   location: value.location,
+    //   description: value.description
+    // });
+    // this.getAllData('Items').then((items: FileElement) => {
+    //   this._dataChange.next(items);
+    // });
+    //   return tx.complete;
+    // });
+  
     fileElement.id = v4()
     this.map.set(fileElement.id, this.clone(fileElement))
     return fileElement

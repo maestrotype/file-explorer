@@ -1,1 +1,5 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+.mat-grid-list .mat-grid-tile .mat-figure {
+    justify-content: left;
+}
