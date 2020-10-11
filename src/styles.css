@@ -1,5 +1,16 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+html {
+    height: 100%;
+}
+
+.mat-grid-list .mat-grid-tile {
+    height: 100%;
+}
 
 .mat-grid-list .mat-grid-tile .mat-figure {
-    justify-content: left;
+    height: 100%;
+    align-items: start;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 15px;
 }

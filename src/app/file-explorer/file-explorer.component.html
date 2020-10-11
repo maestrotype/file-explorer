@@ -14,23 +14,26 @@
 
 <div class="container" fxFlex fxLayout="row" fxLayoutAlign="space-between stretch">
     <div class="content" fxFlex fxLayout="column">
-        <mat-grid-list cols="1" rowHeight="100px" fxFlex>
-            <mat-grid-tile *ngFor="let element of fileElements" class="file-or-folder">
-                <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}"
-                    #menuTrigger="matMenuTrigger">
-                </span>
-                <div fxLayout="column" fxLayoutAlign="space-between center" (click)="navigate(element)"
-                    (contextmenu)="openMenu($event, menuTrigger)">
-                    <mat-icon class="file-or-folder-icon pointer yellow-icon" *ngIf="element.isFolder">
-                        folder
-                    </mat-icon>
-                    <mat-icon class="file-or-folder-icon pointer white-icon" *ngIf="!element.isFolder">
-                        insert_drive_file
-                    </mat-icon>
+        <mat-grid-list cols="2" fxFlex>
+            <mat-grid-tile fxFlex fxLayout="column">
+                <div *ngFor="let element of fileElements" class="file-or-folder">
+                    <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}"
+                        #menuTrigger="matMenuTrigger">
+                    </span>
+                    <div fxLayout="column" fxLayoutAlign="space-between center" (click)="navigate(element)"
+                        (contextmenu)="openMenu($event, menuTrigger)" (click)="showContent(element)">
+                        <mat-icon class="file-or-folder-icon pointer yellow-icon" *ngIf="element.isFolder">
+                            folder
+                        </mat-icon>
+                        <mat-icon class="file-or-folder-icon pointer white-icon" *ngIf="!element.isFolder">
+                            insert_drive_file
+                        </mat-icon>
 
-                    <span>{{element.name}}</span>
+                        <span>{{element.name}}</span>
+                    </div>
                 </div>
             </mat-grid-tile>
+            <mat-grid-tile>{{content}}</mat-grid-tile>
         </mat-grid-list>
     </div>
 </div>
