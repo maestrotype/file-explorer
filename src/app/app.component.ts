@@ -20,7 +20,7 @@ export class AppComponent {
   ngOnInit() {
     const folderA = this.fileService.add({ name: 'Folder A', isFolder: true, content: '', parent: 'root' });
     const folderB = this.fileService.add({ name: 'Folder B', isFolder: true, content: '', parent: 'root' });
-    // this.fileService.add({ name: 'Folder B', isFolder: true, parent: 'root' });
+
     this.fileService.add({ name: 'Folder C', isFolder: true, content: '', parent: folderA.id });
     this.fileService.add({ name: 'File A', isFolder: false, content: 'sdsdsd', parent: 'root' });
     this.fileService.add({ name: 'File B', isFolder: false, content: 'dsds', parent: 'root' });

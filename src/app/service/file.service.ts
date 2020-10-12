@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-// import idb from 'idb';
 import { v4 } from 'uuid'
 import { FileElement } from '../file-explorer/model/file-element'
 import { Observable, Subject, interval, BehaviorSubject } from 'rxjs'
@@ -21,21 +20,22 @@ export class FileService implements IFileService {
 
   constructor() {
     this.storage = window.localStorage;
-    console.log("localStorage", this.storage);    
   }
 
   add(fileElement: FileElement) {
-    console.log("fileElement", fileElement)
-    
     fileElement.id = v4()
+
     this.map.set(fileElement.id, this.clone(fileElement))
-    this.setItem(fileElement.id, JSON.stringify(fileElement))
-    this.getItem(fileElement.id)
-    console.log("localStorage2", this.storage)
+    
     return fileElement
   }
 
+  addLocalStorage(fileElement: FileElement) {
+    this.setItem(fileElement.id, JSON.stringify(fileElement))
+  }
+
   delete(id: string) {
+    localStorage.clear()
     this.map.delete(id)
   }
 
@@ -48,6 +48,8 @@ export class FileService implements IFileService {
   private querySubject: BehaviorSubject<FileElement[]>
   queryInFolder(folderId: string) {
     const result: FileElement[] = []
+    console.log("result", result);
+    
     this.map.forEach(element => {
       if (element.parent === folderId) {
         result.push(this.clone(element))
