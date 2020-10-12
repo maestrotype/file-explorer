@@ -18,23 +18,23 @@ export class AppComponent {
   constructor(public fileService: FileService) { }
 
   ngOnInit() {
-    const folderA = this.fileService.add({ name: 'Folder A', isFolder: true, parent: 'root' });
-    const folderB = this.fileService.add({ name: 'Folder B', isFolder: true, parent: 'root' });
-    // this.fileService.add({ name: 'Folder B', isFolder: true, parent: 'root' });
-    this.fileService.add({ name: 'Folder C', isFolder: true, parent: folderA.id });
-    this.fileService.add({ name: 'File A', isFolder: false, parent: 'root' });
-    this.fileService.add({ name: 'File B', isFolder: false, parent: 'root' });
-    this.fileService.add({ name: 'File B', isFolder: false, parent: folderB.id });
+    const folderA = this.fileService.add({ name: 'Folder A', isFolder: true, content: '', parent: 'root' });
+    const folderB = this.fileService.add({ name: 'Folder B', isFolder: true, content: '', parent: 'root' });
+
+    this.fileService.add({ name: 'Folder C', isFolder: true, content: '', parent: folderA.id });
+    this.fileService.add({ name: 'File A', isFolder: false, content: 'sdsdsd', parent: 'root' });
+    this.fileService.add({ name: 'File B', isFolder: false, content: 'dsds', parent: 'root' });
+    this.fileService.add({ name: 'File C', isFolder: false, content: 'sdsdsds', parent: folderB.id });
     this.updateFileElementQuery();
   }
 
   addFile(file: { name: string }) {
-    this.fileService.add({ isFolder: false, name: file.name, parent: this.currentRoot ? this.currentRoot.id : 'root' });
+    this.fileService.add({ isFolder: false, name: file.name, content: 'addFile', parent: this.currentRoot ? this.currentRoot.id : 'root' });
     this.updateFileElementQuery();
   }
 
   addFolder(folder: { name: string }) {
-    this.fileService.add({ isFolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.id : 'root' });
+    this.fileService.add({ isFolder: true, name: folder.name, content: '', parent: this.currentRoot ? this.currentRoot.id : 'root' });
     this.updateFileElementQuery();
   }
 

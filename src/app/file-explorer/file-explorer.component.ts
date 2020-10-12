@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core'
+import { Observable } from 'rxjs'
 import { MatDialog } from '@angular/material/dialog'
 import { FileElement } from './model/file-element'
 import { MatMenuTrigger } from '@angular/material/menu/index'
@@ -12,6 +13,8 @@ import { NewFileDialogComponent } from './modals/new-file-dialog/new-file-dialog
   styleUrls: ['./file-explorer.component.css']
 })
 export class FileExplorerComponent implements OnInit {
+
+  content: string
 
   @Input() fileElements: FileElement[]
   @Input() canNavigateUp: string
@@ -31,6 +34,7 @@ export class FileExplorerComponent implements OnInit {
   constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
+    this.content = "test"
   }
 
   deleteElement(element: FileElement) {
@@ -82,6 +86,10 @@ export class FileExplorerComponent implements OnInit {
   openMenu(event: MouseEvent, viewChild: MatMenuTrigger) {
     event.preventDefault();
     viewChild.openMenu();
+  }
+
+  showContent(element: FileElement) {
+    this.content = element.content
   }
 
 }

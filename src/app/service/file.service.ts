@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-// import idb from 'idb';
 import { v4 } from 'uuid'
 import { FileElement } from '../file-explorer/model/file-element'
 import { Observable, Subject, interval, BehaviorSubject } from 'rxjs'
@@ -16,44 +15,27 @@ export interface IFileService {
 export class FileService implements IFileService {
   private map = new Map<string, FileElement>()
 
-  // private _dataChange: Subject<FileElement> = new Subject<FileElement>();
-  // private _dbPromise;
+  storage: Storage;
+  changes$ = new Subject();
 
   constructor() {
+    this.storage = window.localStorage;
   }
 
-  // connectToIDB() {
-  //   this._dbPromise = idb.open('pwa-database', 1, UpgradeDB => {
-  //     if (!UpgradeDB.objectStoreNames.contains('Items')) {
-  //       UpgradeDB.createObjectStore('Items', {keyPath: 'id', autoIncrement: true});
-  //     }
-  //     if (!UpgradeDB.objectStoreNames.contains('Sync-Items')) {
-  //       UpgradeDB.createObjectStore('Sync-Items', {keyPath: 'id', autoIncrement: true});
-  //     }
-  //   });
-  // }
-
   add(fileElement: FileElement) {
-    // this._dbPromise.then((db: any) => {
-    //   const tx = db.transaction(target, 'readwrite');
-    //   tx.objectStore(target).put({
-    //   time: value.time,
-    //   subject: value.subject,
-    //   location: value.location,
-    //   description: value.description
-    // });
-    // this.getAllData('Items').then((items: FileElement) => {
-    //   this._dataChange.next(items);
-    // });
-    //   return tx.complete;
-    // });
-  
     fileElement.id = v4()
+
     this.map.set(fileElement.id, this.clone(fileElement))
+    
     return fileElement
   }
 
+  addLocalStorage(fileElement: FileElement) {
+    this.setItem(fileElement.id, JSON.stringify(fileElement))
+  }
+
   delete(id: string) {
+    localStorage.clear()
     this.map.delete(id)
   }
 
@@ -66,6 +48,8 @@ export class FileService implements IFileService {
   private querySubject: BehaviorSubject<FileElement[]>
   queryInFolder(folderId: string) {
     const result: FileElement[] = []
+    console.log("result", result);
+    
     this.map.forEach(element => {
       if (element.parent === folderId) {
         result.push(this.clone(element))
@@ -85,5 +69,13 @@ export class FileService implements IFileService {
 
   clone(element: FileElement) {
     return JSON.parse(JSON.stringify(element))
+  }
+
+  getItem(key: string): string | null {
+    return this.storage.getItem(key);
+  }
+
+  setItem(key: string, value: string): void {
+    this.storage.setItem(key, value);
   }
 }
